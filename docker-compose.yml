@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  backend:
+    build: .
+    ports:
+      - "5000:5000"
+    command: python main.py
+  frontend:
+    build: .
+    ports:
+      - "8501:8501"
+    environment:
+      - BACKEND_URL=http://backend:5000/predict
+    depends_on:
+      - backend
+    command: streamlit run webapp.py --server.port=8501 --server.address=0.0.0.0
